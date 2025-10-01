@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}About - Perfect Closet{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-info-circle"></i> About Perfect Closet
+                </h1>
+                <p class="lead">AI-powered fashion recommendations tailored to your unique body type</p>
+            </div>
+
+            <!-- Features Section -->
+            <div class="row mb-5">
+                <div class="col-md-4 text-center mb-4">
+                    <div class="recommendation-card h-100">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h4>AI-Powered Classification</h4>
+                        <p>Advanced deep learning using ResNet50 architecture trained on body shape datasets to accurately classify 5 main body types.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="recommendation-card h-100">
+                        <i class="fas fa-tshirt fa-3x text-primary mb-3"></i>
+                        <h4>Personalized Recommendations</h4>
+                        <p>Get specific advice for tops, bottoms, dresses, and styling tips tailored to enhance your natural silhouette.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="recommendation-card h-100">
+                        <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                        <h4>High Accuracy</h4>
+                        <p>Confidence scoring and alternative predictions help you understand the classification results and explore different styles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Body Types Section -->
+            <div class="mb-5">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-users"></i> Supported Body Types
+                </h2>
+                <div class="row">
+                    {% for body_type in body_types %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="recommendation-card">
+                            <h5 class="recommendation-header">
+                                <i class="fas fa-female"></i> {{ body_type }}
+                            </h5>
+                            {% if body_type == 'Apple' %}
+                                <p><strong>Characteristics:</strong> Fuller midsection with less defined waist, often with broader shoulders and narrower hips.</p>
+                                <p><strong>Focus:</strong> Create vertical lines and draw attention up and down from the midsection.</p>
+                            {% elif body_type == 'Hourglass' %}
+                                <p><strong>Characteristics:</strong> Balanced bust and hip measurements with a well-defined, smaller waist.</p>
+                                <p><strong>Focus:</strong> Emphasize your natural waist and showcase your balanced proportions.</p>
+                            {% elif body_type == 'Triangle' %}
+                                <p><strong>Characteristics:</strong> Hips are wider than the bust with a defined waist (also known as Pear shape).</p>
+                                <p><strong>Focus:</strong> Balance your silhouette by adding volume to your upper body.</p>
+                            {% elif body_type == 'Rectangle' %}
+                                <p><strong>Characteristics:</strong> Similar bust and hip measurements with less defined waist.</p>
+                                <p><strong>Focus:</strong> Create curves and define your waist through clothing choices.</p>
+                            {% elif body_type == 'Inverted Triangle' %}
+                                <p><strong>Characteristics:</strong> Broader shoulders and bust with narrower hips.</p>
+                                <p><strong>Focus:</strong> Balance broad shoulders by adding volume to the lower body.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- How It Works Section -->
+            <div class="mb-5">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-cogs"></i> How It Works
+                </h2>
+                <div class="row">
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="recommendation-card h-100">
+                            <div class="upload-icon" style="font-size: 2rem; color: var(--primary-color);">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <h5>1. Upload Photo</h5>
+                            <p>Upload a clear, full-body photo in form-fitting clothing</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="recommendation-card h-100">
+                            <div class="upload-icon" style="font-size: 2rem; color: var(--primary-color);">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h5>2. AI Analysis</h5>
+                            <p>Our AI analyzes your body proportions and shape</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="recommendation-card h-100">
+                            <div class="upload-icon" style="font-size: 2rem; color: var(--primary-color);">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <h5>3. Classification</h5>
+                            <p>Get your body type with confidence scoring</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center mb-4">
+                        <div class="recommendation-card h-100">
+                            <div class="upload-icon" style="font-size: 2rem; color: var(--primary-color);">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h5>4. Recommendations</h5>
+                            <p>Receive personalized styling advice and tips</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="mb-5">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-lightbulb"></i> Tips for Best Results
+                </h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <h5 class="recommendation-header">
+                                <i class="fas fa-check-circle text-success"></i> Do's
+                            </h5>
+                            <ul class="recommendation-list">
+                                <li>Wear form-fitting clothing that shows your silhouette</li>
+                                <li>Ensure your full body is visible in the photo</li>
+                                <li>Use good lighting for clear image quality</li>
+                                <li>Stand straight with arms at your sides</li>
+                                <li>Take photo from a reasonable distance</li>
+                                <li>Use a plain background if possible</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card" style="border-left-color: #f44336;">
+                            <h5 class="recommendation-header">
+                                <i class="fas fa-times-circle text-danger"></i> Don'ts
+                            </h5>
+                            <ul class="recommendation-list">
+                                <li>Avoid baggy or loose clothing</li>
+                                <li>Don't wear heavy coats or jackets</li>
+                                <li>Avoid photos with poor lighting</li>
+                                <li>Don't take selfies or close-up shots</li>
+                                <li>Avoid photos where body parts are cut off</li>
+                                <li>Don't use heavily filtered images</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Section -->
+            <div class="mb-5">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-microchip"></i> Technology & Dataset
+                </h2>
+                <div class="recommendation-card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="recommendation-header">Deep Learning Model</h5>
+                            <p>Our classification system uses a <strong>ResNet50</strong> convolutional neural network, pre-trained on ImageNet and fine-tuned specifically for body shape classification. This architecture provides:</p>
+                            <ul class="recommendation-list">
+                                <li>High accuracy in visual pattern recognition</li>
+                                <li>Robust performance across different image conditions</li>
+                                <li>Transfer learning capabilities for fashion domain</li>
+                                <li>Real-time inference for immediate results</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="recommendation-header">Training Dataset</h5>
+                            <p>The model is trained on the <strong>Style4BodyShape</strong> dataset, which includes:</p>
+                            <ul class="recommendation-list">
+                                <li>Images of women in various form-fitting outfits</li>
+                                <li>Professional annotation for 5 body type categories</li>
+                                <li>Diverse representation across different demographics</li>
+                                <li>Quality-controlled data for optimal training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div class="mb-5">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-shield-alt"></i> Privacy & Security
+                </h2>
+                <div class="recommendation-card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="recommendation-header">Your Data is Safe</h5>
+                            <ul class="recommendation-list">
+                                <li>Images are processed locally and not stored</li>
+                                <li>No personal information is collected</li>
+                                <li>Results are generated in real-time</li>
+                                <li>No user accounts or registration required</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="recommendation-header">Technical Security</h5>
+                            <ul class="recommendation-list">
+                                <li>Secure HTTPS connections</li>
+                                <li>Client-side image preprocessing</li>
+                                <li>No server-side image storage</li>
+                                <li>Privacy-first design principles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="text-center">
+                <div class="recommendation-card">
+                    <h3><i class="fas fa-rocket"></i> Ready to Discover Your Style?</h3>
+                    <p class="lead">Upload your photo and get personalized fashion recommendations in seconds!</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-camera"></i> Start Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
