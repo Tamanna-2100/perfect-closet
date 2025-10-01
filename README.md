@@ -1,4 +1,4 @@
-# Perfect Closet - AI-Powered Body Type Classification
+# Find Your fit - AI-Powered Body Type Classification
 
 A clean, efficient web application that uses machine learning to classify women's body types and provide personalized clothing recommendations.
 
