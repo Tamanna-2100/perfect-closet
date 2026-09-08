@@ -1,116 +1,162 @@
-# Find Your fit - AI-Powered Body Type Classification
+# Perfect Closet 👗✨
 
-A clean, efficient web application that uses machine learning to classify women's body types and provide personalized clothing recommendations.
+**Perfect Closet** is an automated seasonal color analysis and personal styling platform. It uses deterministic computer vision and mathematical colorimetry to analyze user skin tone, hair, and eye contrast, accurately mapping individuals to one of the **12 Seasonal Color Palettes** (e.g., *Deep Winter*, *Soft Summer*, *Warm Autumn*, *Light Spring*), paired with curated outfit inspiration and real-time shoppable retail recommendations.
 
-##  Features
+---
 
--  **AI-Powered Body Type Classification**: Uses ResNet50 deep learning to classify 5 main body types
--  **Personalized Clothing Recommendations**: Get specific advice for tops, bottoms, dresses, and styling tips
--  **User-Friendly Web Interface**: Beautiful, responsive web app with drag-and-drop image upload
--  **Confidence Scoring**: Shows prediction confidence and alternative body type scores
--  **High Accuracy**: Uses transfer learning for robust classification
--  **Privacy-First**: Images processed locally, no data storage
+## 🌟 Key Features
 
-##  Body Types Supported
+- **Deterministic Computer Vision Pipeline**:
+  - Facial feature & physiological skin segmentation using OpenCV Haar Cascades and YCrCb chrominance modeling.
+  - Robust fallback mechanisms ensuring consistent results across diverse lighting and skin tones.
+- **Mathematical Colorimetry & 12-Season Classification**:
+  - RGB $\to$ CIELAB color space transformation.
+  - Individual Typology Angle (ITA) computation for skin tone undertone and depth.
+  - Contrast ratio calculation between skin, hair, and eye features.
+  - Euclidean distance matching against seasonal centroids across 12 sub-seasons.
+- **Inspiration & Retail Matching**:
+  - Dynamic Pinterest-style outfit inspiration boards tailored to the detected season.
+  - Google Shopping integration with direct merchant URLs and filterable garment attributes (tops, bottoms, dresses, outerwear).
+- **Luxury-Grade Web Experience**:
+  - Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS.
+  - Interactive dual-image upload zone (close-up portrait + full-body outfit).
+  - Interactive palette explorer with hex copy, contrast badges, and seasonal guides.
 
-1. **Hourglass** - Balanced proportions with defined waist
-2. **Triangle (Pear)** - Hips wider than bust with defined waist  
-3. **Apple** - Fuller midsection with less defined waist
-4. **Rectangle** - Similar bust and hip measurements with less defined waist
-5. **Inverted Triangle** - Bust wider than hips with broad shoulders
+---
 
-##  Technology Stack
+## 🏗 System Architecture
 
-- **Backend**: Python Flask
-- **AI/ML**: PyTorch, ResNet50
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
-- **Image Processing**: PIL, torchvision
-- **Dataset**: Style4BodyShape dataset
-
-##  Prerequisites
-
-- Python 3.8 or higher
-- pip (Python package installer)
-- 4GB+ RAM recommended
-- GPU optional (for faster inference)
-
-##  Quick Start
-
-### 1. Clone or Download
-```bash
-git clone <repository-url>
-cd my_perfect_closet
+```text
+User Client (Next.js 16)
+         │
+         │ 1. Upload 2 Photos (Face + Full-Body)
+         ▼
+FastAPI Core Engine (:8000)
+         │
+         ├── Face / Skin / Iris Isolation (OpenCV / MediaPipe)
+         ├── RGB ➔ CIELAB ➔ ITA Math Transformation
+         └── 12-Season Centroid Classifier
+         │
+         ▼
+Season Result & Style Attributes
+         │
+         ├── SerpApi: Pinterest Inspiration Retrieval
+         └── SerpApi: Google Shopping E-Commerce Links
+         │
+         ▼
+Interactive UI & Personal Styling Studio
 ```
 
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
+---
+
+## 📁 Repository Structure
+
+```tree
+perfect-closet/
+├── backend/
+│   ├── main.py                     # FastAPI application & API endpoints
+│   ├── models/                     # Trained seasonal classifier models
+│   ├── schemas/
+│   │   └── models.py               # Pydantic schemas for request/response validation
+│   ├── services/
+│   │   ├── classifier_service.py   # 12-season distance & ITA classification
+│   │   ├── cv_service.py           # Computer vision & skin extraction engine
+│   │   ├── palette_data.py         # Curated 12-season palette color database
+│   │   └── serp_service.py         # Pinterest & Google Shopping retrieval
+│   └── tests/
+│       └── test_backend.py         # Pytest test suite for CV and classification
+├── frontend/
+│   ├── src/
+│   │   ├── app/                    # Next.js App Router (page, layout, styles)
+│   │   ├── components/             # UI components (UploadZone, PaletteViewer, etc.)
+│   │   └── types/                  # TypeScript interfaces matching backend models
+│   ├── package.json
+│   └── tsconfig.json
+├── scripts/
+│   ├── download_datasets.py        # Dataset downloader (CelebA)
+│   ├── extract_features.py         # Feature extraction script
+│   └── train_classifier.py         # Seasonal model training script
+├── requirements.txt                # Python backend dependencies
+└── README.md
 ```
 
-### 3. Run the Application
-```bash
-python app.py
-```
+---
 
-### 4. Open Your Browser
-Navigate to `http://localhost:5000`
+## 🚀 Getting Started
 
+### Prerequisites
 
-##  Project Structure
+- **Python**: 3.11 or higher
+- **Node.js**: 18.x or higher
+- **npm** or **pnpm** / **yarn**
 
-```
-my_perfect_closet/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── README.md             # Project documentation
-├── templates/            # HTML templates
-│   ├── base.html
-│   ├── index.html
-│   └── about.html
-└── temp_dataset/        # The dataset (Style4BodyShape)
-```
+---
 
-##  Usage Tips
+### 1. Backend Setup
 
-### For Best Results:
--  Wear form-fitting clothing that shows your silhouette
--  Ensure your full body is visible in the photo
--  Use good lighting for clear image quality
--  Stand straight with arms at your sides
--  Take photo from a reasonable distance
+1. **Create and activate a virtual environment**:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-### Avoid:
--  Baggy or loose clothing
--  Heavy coats or jackets
--  Poor lighting conditions
--  Selfies or close-up shots
--  Photos where body parts are cut off
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-##  Clothing Recommendations
+3. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Optional)* Add your `SERPAPI_API_KEY` for live shopping & inspiration queries. If omitted, the service gracefully provides high-quality curated fallbacks.
 
-The system provides comprehensive styling advice for each body type:
+4. **Run the FastAPI server**:
+   ```bash
+   uvicorn backend.main:app --reload --port 8000
+   ```
+   API interactive docs will be live at `http://localhost:8000/docs`.
 
-### Hourglass
-- **Focus**: Emphasize the natural waist
-- **Tops**: Fitted, wrap styles, V-necks
-- **Bottoms**: High-waisted, A-line cuts
+5. **Run Backend Tests**:
+   ```bash
+   pytest backend/tests/test_backend.py -v
+   ```
 
-### Pear (Triangle)
-- **Focus**: Balance upper and lower body
-- **Tops**: Bright colors, patterns, structured shoulders
-- **Bottoms**: Dark colors, straight cuts
+---
 
-### Apple  
-- **Focus**: Create vertical lines, draw attention up/down
-- **Tops**: V-necks, empire waist, flowy fabrics
-- **Bottoms**: Straight-leg, bootcut styles
+### 2. Frontend Setup
 
-### Rectangle
-- **Focus**: Create curves and define waist
-- **Tops**: Peplum, ruffles, crop tops
-- **Bottoms**: Low-rise, flared styles
+1. **Navigate to the frontend directory**:
+   ```bash
+   cd frontend
+   ```
 
-### Inverted Triangle
-- **Focus**: Balance broad shoulders with fuller hips
-- **Tops**: Soft fabrics, avoid shoulder emphasis
-- **Bottoms**: Wide-leg, bright colors, full skirts
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the Next.js development server**:
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:3000` in your browser.
+
+---
+
+## 🧪 Testing the Pipeline
+
+1. Launch both the backend (`:8000`) and frontend (`:3000`).
+2. Navigate to `http://localhost:3000`.
+3. Upload:
+   - **Photo 1**: A clear, well-lit portrait photo of your face.
+   - **Photo 2**: A full-body photo showing clothing or silhouette.
+4. Click **"Run Color & Style Analysis"**.
+5. View your detected Season, ITA score, undertone, contrasting swatches, outfit moodboard, and shopping items!
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.

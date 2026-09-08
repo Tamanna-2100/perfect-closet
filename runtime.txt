@@ -1,2 +1,0 @@
-# Runtime Python version for deployment
-python-3.10.9
