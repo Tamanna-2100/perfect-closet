@@ -69,9 +69,10 @@ export const SeasonHero: React.FC<SeasonHeroProps> = ({ season, features, onRese
             </span>
             <button
               onClick={onReset}
-              className="text-[11px] text-stone-400 hover:text-stone-200 flex items-center gap-1 transition-colors"
+              className="text-xs text-amber-400/90 hover:text-amber-200 bg-amber-950/40 hover:bg-amber-950/70 border border-amber-800/60 px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-all shadow-sm group"
+              title="Upload new photos and retest"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-3 h-3 transition-transform group-hover:-rotate-90" />
               Retest
             </button>
           </div>

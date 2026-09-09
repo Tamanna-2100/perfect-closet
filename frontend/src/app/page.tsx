@@ -9,7 +9,7 @@ import { PaletteViewer } from "@/components/PaletteViewer";
 import { InspirationGrid } from "@/components/InspirationGrid";
 import { ProductCatalog } from "@/components/ProductCatalog";
 import { AnalysisResponse } from "@/types";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ArrowLeft, RotateCcw } from "lucide-react";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +39,8 @@ export default function Home() {
 
       const data: AnalysisResponse = await response.json();
       setAnalysis(data);
+      // Smooth scroll to top of results
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: any) {
       setErrorMessage(
         err.message || "Failed to analyze photos. Please ensure the backend server is running."
@@ -51,13 +53,14 @@ export default function Home() {
   const handleReset = () => {
     setAnalysis(null);
     setErrorMessage(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 flex flex-col font-sans selection:bg-amber-500/30 selection:text-amber-200">
-      <Navbar />
+      <Navbar hasAnalysis={!!analysis} onReset={handleReset} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {errorMessage && (
           <div className="max-w-2xl mx-auto mb-8 p-4 rounded-2xl bg-rose-950/40 border border-rose-900/60 text-rose-300 text-xs flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
@@ -76,7 +79,33 @@ export default function Home() {
             <AnalysisLoading />
           </div>
         ) : analysis ? (
-          <div className="space-y-16 animate-in fade-in duration-500">
+          <div className="space-y-12 animate-in fade-in duration-500">
+            {/* Top Back / Navigation Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-stone-800/60">
+              <button
+                onClick={handleReset}
+                className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-stone-900/90 hover:bg-stone-800 border border-stone-800 hover:border-stone-700 text-stone-200 hover:text-white text-sm font-medium transition-all shadow-lg hover:shadow-stone-900/50 group w-fit"
+                title="Return to photo upload screen to analyze different photos"
+              >
+                <ArrowLeft className="w-4 h-4 text-amber-400 transition-transform group-hover:-translate-x-1" />
+                <span>Back to Upload Photos</span>
+              </button>
+
+              <div className="flex items-center gap-3 text-xs text-stone-400 font-mono">
+                <span className="hidden md:inline-block">
+                  Current Result: <strong className="text-amber-300 font-normal">{analysis.season.season_name}</strong>
+                </span>
+                <span className="hidden md:inline-block text-stone-600">•</span>
+                <button
+                  onClick={handleReset}
+                  className="text-stone-400 hover:text-amber-300 transition-colors flex items-center gap-1.5"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Analyze New Photos</span>
+                </button>
+              </div>
+            </div>
+
             <SeasonHero
               season={analysis.season}
               features={analysis.features}
